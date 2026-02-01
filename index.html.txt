@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Valentine Proposal 💘</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- React CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(to bottom, #ffdde1, #ee9ca7);
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      text-align: center;
+      padding: 30px;
+      background: #ffffffcc;
+      border-radius: 14px;
+      max-width: 420px;
+      position: relative;
+    }
+
+    button {
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .no-btn {
+      position: absolute;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const ValentineProposal = () => {
+      const [yesSize, setYesSize] = React.useState(18);
+      const [message, setMessage] = React.useState("");
+      const [noPosition, setNoPosition] = React.useState({ top: 220, left: 220 });
+
+      const messages = [
+        "💌 Roses are red, violets are blue, my world feels perfect when I’m with you.",
+        "🌹 Every love story is beautiful, but ours is my favorite.",
+        "✨ I don’t need a thousand reasons—just you.",
+        "🥰 My heart already chose you.",
+        "💖 Just say yes already 😌"
+      ];
+
+      const moveNoButton = () => {
+        setYesSize(prev => prev + 6);
+
+        setNoPosition({
+          top: Math.random() * 250,
+          left: Math.random() * 250
+        });
+
+        setMessage(messages[Math.floor(Math.random() * messages.length)]);
+      };
+
+      const handleYesClick = () => {
+        setMessage("🎉 YAY! You’re officially my Valentine 💕🥰");
+      };
+
+      return (
+        <div className="container">
+          <h2>Can you be my Valentine? 💘</h2>
+
+          <button
+            onClick={handleYesClick}
+            style={{
+              fontSize: yesSize + "px",
+              padding: "10px 20px",
+              backgroundColor: "#ff4d6d",
+              color: "#fff",
+              marginTop: "20px"
+            }}
+          >
+            Yes 💖
+          </button>
+
+          <button
+            className="no-btn"
+            onMouseEnter={moveNoButton}
+            style={{
+              top: noPosition.top + "px",
+              left: noPosition.left + "px",
+              padding: "10px 20px",
+              backgroundColor: "#555",
+              color: "#fff"
+            }}
+          >
+            No 🙈
+          </button>
+
+          {message && (
+            <div style={{
+              marginTop: "30px",
+              padding: "15px",
+              background: "#fff",
+              borderRadius: "10px",
+              fontStyle: "italic"
+            }}>
+              {message}
+            </div>
+          )}
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<ValentineProposal />);
+  </script>
+</body>
+</html>
