@@ -1,128 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Valentine Proposal 💘</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <title>For Pihuu 💖</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- React CDN -->
-  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <meta name="theme-color" content="#ff4d6d">
+  <meta name="apple-mobile-web-app-capable" content="yes">
 
   <style>
     body {
       margin: 0;
-      min-height: 100vh;
+      height: 100vh;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
       display: flex;
-      align-items: center;
       justify-content: center;
-      background: linear-gradient(to bottom, #ffdde1, #ee9ca7);
-      font-family: Arial, sans-serif;
+      align-items: center;
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+      text-align: center;
     }
 
-    .container {
-      text-align: center;
+    .card, .letter {
+      background: white;
       padding: 30px;
-      background: #ffffffcc;
-      border-radius: 14px;
-      max-width: 420px;
-      position: relative;
+      border-radius: 22px;
+      width: 320px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+      animation: pop 0.8s ease;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @keyframes pop {
+      from { transform: scale(0.7); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    h2 {
+      color: #ff4d6d;
+      margin-bottom: 10px;
+    }
+
+    .name {
+      font-size: 22px;
+      font-weight: bold;
+      color: #ff4d6d;
+      margin-bottom: 20px;
     }
 
     button {
       border: none;
-      border-radius: 8px;
+      border-radius: 30px;
+      padding: 12px 22px;
+      font-size: 18px;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: 0.3s;
+      margin: 10px;
     }
 
-    .no-btn {
+    #yesBtn {
+      background: #ff4d6d;
+      color: white;
+    }
+
+    #noBtn {
+      background: #555;
+      color: white;
       position: absolute;
+    }
+
+    #message {
+      margin-top: 20px;
+      font-style: italic;
+      color: #444;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 22px;
+      animation: floatUp 4s linear infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(-100vh); opacity: 0; }
+    }
+
+    .tap {
+      font-size: 12px;
+      color: #888;
+      margin-top: 10px;
     }
   </style>
 </head>
 
-<body>
-  <div id="root"></div>
+<body onclick="startMusic()">
 
-  <script type="text/babel">
-    const ValentineProposal = () => {
-      const [yesSize, setYesSize] = React.useState(18);
-      const [message, setMessage] = React.useState("");
-      const [noPosition, setNoPosition] = React.useState({ top: 220, left: 220 });
+  <!-- Background music -->
+  <audio id="bgMusic" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  </audio>
 
-      const messages = [
-        "💌 Roses are red, violets are blue, my world feels perfect when I’m with you.",
-        "🌹 Every love story is beautiful, but ours is my favorite.",
-        "✨ I don’t need a thousand reasons—just you.",
-        "🥰 My heart already chose you.",
-        "💖 Just say yes already 😌"
-      ];
+  <!-- Proposal Card -->
+  <div class="card" id="card">
+    <h2>Will you be my Valentine? 💘</h2>
+    <div class="name">Pihuu ✨</div>
 
-      const moveNoButton = () => {
-        setYesSize(prev => prev + 6);
+    <button id="yesBtn" onclick="yesClick()">Yes 💖</button>
+    <button id="noBtn" onmouseover="moveNo()">No 🙈</button>
 
-        setNoPosition({
-          top: Math.random() * 250,
-          left: Math.random() * 250
-        });
+    <div id="message"></div>
+    <div class="tap">🔊 Tap anywhere to start music</div>
+  </div>
 
-        setMessage(messages[Math.floor(Math.random() * messages.length)]);
-      };
+  <!-- Love Letter -->
+  <div class="letter hidden" id="letter">
+    <h2>Dear Pihuu 💖</h2>
+    <p>
+      From the moment you came into my life,<br>
+      everything felt warmer, softer, and brighter.<br><br>
+      Your smile is my favorite view,<br>
+      your name my favorite word,<br>
+      and your presence my favorite feeling.<br><br>
+      Thank you for choosing me.<br>
+      I promise to choose you, every single day. 💕
+    </p>
+    <h3>Forever yours 💫</h3>
+  </div>
 
-      const handleYesClick = () => {
-        setMessage("🎉 YAY! You’re officially my Valentine 💕🥰");
-      };
+  <script>
+    let yesSize = 18;
+    let musicStarted = false;
 
-      return (
-        <div className="container">
-          <h2>Can you be my Valentine? 💘</h2>
+    const messages = [
+      "💌 Pihuu, roses are red, violets are blue, my world feels perfect with you.",
+      "✨ I don’t need a thousand reasons — just you, Pihuu.",
+      "🥰 My heart already chose you.",
+      "💖 Come on Pihuu, say yes 😌"
+    ];
 
-          <button
-            onClick={handleYesClick}
-            style={{
-              fontSize: yesSize + "px",
-              padding: "10px 20px",
-              backgroundColor: "#ff4d6d",
-              color: "#fff",
-              marginTop: "20px"
-            }}
-          >
-            Yes 💖
-          </button>
+    function startMusic() {
+      if (!musicStarted) {
+        document.getElementById("bgMusic").play();
+        musicStarted = true;
+      }
+    }
 
-          <button
-            className="no-btn"
-            onMouseEnter={moveNoButton}
-            style={{
-              top: noPosition.top + "px",
-              left: noPosition.left + "px",
-              padding: "10px 20px",
-              backgroundColor: "#555",
-              color: "#fff"
-            }}
-          >
-            No 🙈
-          </button>
+    function moveNo() {
+      yesSize += 4;
+      document.getElementById("yesBtn").style.fontSize = yesSize + "px";
 
-          {message && (
-            <div style={{
-              marginTop: "30px",
-              padding: "15px",
-              background: "#fff",
-              borderRadius: "10px",
-              fontStyle: "italic"
-            }}>
-              {message}
-            </div>
-          )}
-        </div>
-      );
-    };
+      const noBtn = document.getElementById("noBtn");
+      noBtn.style.top = Math.random() * 200 + "px";
+      noBtn.style.left = Math.random() * 200 + "px";
 
-    const root = ReactDOM.createRoot(document.getElementById("root"));
-    root.render(<ValentineProposal />);
+      document.getElementById("message").innerText =
+        messages[Math.floor(Math.random() * messages.length)];
+    }
+
+    function yesClick() {
+      document.getElementById("card").classList.add("hidden");
+      document.getElementById("letter").classList.remove("hidden");
+
+      for (let i = 0; i < 30; i++) {
+        createHeart();
+      }
+    }
+
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerHTML = "💖";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.bottom = "0px";
+      document.body.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 4000);
+    }
   </script>
+
 </body>
 </html>
